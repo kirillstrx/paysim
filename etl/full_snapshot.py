@@ -56,12 +56,23 @@ def create_postgres_connection(spark):
 
 
 def transform(df):
+    valid_types = ["CASH_IN", "CASH_OUT", "DEBIT", "PAYMENT", "TRANSFER"]
+
     df = df.filter(
+        (F.col("amount").isNotNull()) &
         (F.col("amount") > 0) &
+        (F.col("step").isNotNull()) &
         (F.col("step") >= 0) &
         (F.col("type").isNotNull()) &
+        (F.col("type").isin(valid_types)) &
         (F.col("nameorig").isNotNull()) &
-        (F.col("namedest").isNotNull())
+        (F.col("namedest").isNotNull()) &
+        (F.trim(F.col("nameorig")) != "") &
+        (F.trim(F.col("namedest")) != "") &
+        (F.col("oldbalanceorg").isNotNull()) &
+        (F.col("newbalanceorig").isNotNull()) &
+        (F.col("oldbalancedest").isNotNull()) &
+        (F.col("newbalancedest").isNotNull())
     )
 
     df = (
