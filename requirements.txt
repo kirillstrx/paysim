@@ -1,0 +1,10 @@
+pandas
+sqlalchemy
+psycopg2-binary
+python-dotenv
+kagglehub
+PyYAML
+pyspark
+onetl
+fastapi
+uvicorn

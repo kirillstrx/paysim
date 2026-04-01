@@ -1,0 +1,27 @@
+source:
+  type: postgres
+  schema: public
+  table: paysim_transactions
+
+spark:
+  master: local[*]
+
+full_snapshot:
+  app_name: paysim-full-snapshot
+  target:
+    schema: public
+    table: paysim_full_snapshot
+  write_mode: replace_entire_table
+
+incremental:
+  app_name: paysim-incremental-load
+  target:
+    schema: public
+    table: paysim_incremental
+  write_mode: append
+  hwm:
+    name: paysim_step_hwm
+    column: step
+
+kaggle:
+  dataset: ealaxi/paysim1
