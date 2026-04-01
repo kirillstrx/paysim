@@ -93,17 +93,11 @@ python scripts/run_incremental_load.py
 python scripts/run_api.py
 ```
 
-Документация API:
+API:
 
 - `http://127.0.0.1:8000/docs`
 - `http://127.0.0.1:8000/redoc`
 
-Эндпоинты:
-
-- `POST /etl/full`
-- `POST /etl/incremental`
-- `GET /etl/status/{id}`
-- `GET /etl/history`
 
 ## Проверка в PostgreSQL
 
