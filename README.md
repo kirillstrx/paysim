@@ -1,16 +1,16 @@
 # PaySim ETL Pipeline
 
-Проект по обработке финансовых транзакций на датасете **PaySim**.
+A project for processing financial transactions using the **PaySim** dataset.
 
-## Что реализовано
+## Implemented Features
 
-- загрузка данных из Kaggle в PostgreSQL
-- full snapshot ETL через Spark + onETL
-- incremental load через HWM по колонке `step`
-- конфигурация через `config.yaml` и `.env`
-- FastAPI API для запуска ETL и просмотра статусов
+- data loading from Kaggle into PostgreSQL
+- full snapshot ETL using Spark + onETL
+- incremental load using HWM based on the `step` column
+- configuration via `config.yaml` and `.env`
+- FastAPI API for running ETL jobs and viewing statuses
 
-## Структура проекта
+## Project Structure
 
 ```text
 bigdata_project/
@@ -26,7 +26,7 @@ bigdata_project/
 └── requirements.txt
 ```
 
-## Установка
+## Installation
 
 ```bash
 python -m venv .venv
@@ -34,11 +34,11 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Настройка
+## Configuration
 
-Создать `.env` по шаблону `.env.example`.
+Create a `.env` file based on `.env.example`.
 
-Пример:
+Example:
 
 ```env
 DB_HOST=localhost
@@ -51,17 +51,17 @@ KAGGLE_USERNAME=your_kaggle_username
 KAGGLE_KEY=your_kaggle_api_key
 ```
 
-Проверить `config/config.yaml`.
+Check the `config/config.yaml` file as well.
 
-## Загрузка данных из Kaggle
+## Loading Data from Kaggle
 
-Полная загрузка:
+Full load:
 
 ```bash
 python scripts/load_kaggle_data.py --limit 100000
 ```
 
-Добавление нового батча:
+Append a new batch:
 
 ```bash
 python scripts/load_kaggle_data.py --append --offset 100000 --limit 50000
@@ -73,7 +73,7 @@ python scripts/load_kaggle_data.py --append --offset 100000 --limit 50000
 python scripts/run_full_snapshot.py
 ```
 
-Результат записывается в таблицу `paysim_full_snapshot`.
+The result is written to the `paysim_full_snapshot` table.
 
 ## Incremental Load
 
@@ -81,25 +81,24 @@ python scripts/run_full_snapshot.py
 python scripts/run_incremental_load.py
 ```
 
-- HWM колонка: `step`
-- HWM хранится в `data/hwm`
-- новые данные загружаются только после последнего значения HWM
+- HWM column: `step`
+- HWM is stored in `data/hwm`
+- only new data after the last HWM value is loaded
 
 ## API
 
-Запуск:
+Run:
 
 ```bash
 python scripts/run_api.py
 ```
 
-API:
+Available endpoints:
 
 - `http://127.0.0.1:8000/docs`
 - `http://127.0.0.1:8000/redoc`
 
-
-## Проверка в PostgreSQL
+## Verification in PostgreSQL
 
 ```sql
 SELECT COUNT(*) FROM paysim_transactions;
